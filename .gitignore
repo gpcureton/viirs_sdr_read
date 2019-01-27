@@ -1,0 +1,24 @@
+# Compiled object files
+*.o
+
+# C extensions
+*.so
+
+# Archive library files
+*.a
+
+# VIM swap files
+.*.sw*
+
+### Various OS Files ###
+.DS_Store
+._.DS_Store
+Thumbs.db
+*.*~
+
+# repo specific ignores
+Read_VIIRS_GIMGO
+Read_VIIRS_GMODO
+Read_VIIRS_SVI01
+Read_VIIRS_SVM16
+*.h5
