@@ -5,9 +5,9 @@
 #include <hdf5.h>
 #include <hdf5_hl.h>
 
-#define IMGSVFILE      "SVI01_npp_d20030125_t0704334_e0705579_b00014_c20090823223722753350_unkn_SCI.h5" // 0.48
+#define IMGSVFILE      "SVI03_j01_d20190715_t1619591_e1621236_b08574_c20190715163933855645_cspp_dev.h5" // CSPP SDR 3.*
 
-#define IMGSVGRP       "All_Data/VIIRS-I1-SDR_All/"
+#define IMGSVGRP       "All_Data/VIIRS-I3-SDR_All/"
 
 int main(void){
 
@@ -973,23 +973,23 @@ int main(void){
 
 	printf ("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 
-	// Allocate the array memory for the scaled Radiances
-	float **Radiance_scaled = (float **) malloc(nRows * sizeof(float *));
-	Radiance_scaled[0] = (float *) malloc(nRows * nCols * sizeof(float));
+	// Allocate the array memory for the unscaled Radiances
+	float **Radiance_unscaled = (float **) malloc(nRows * sizeof(float *));
+	Radiance_unscaled[0] = (float *) malloc(nRows * nCols * sizeof(float));
 	for (i=1; i<nRows; i++)
-		Radiance_scaled[i] = Radiance_scaled[0] + i * nCols;
+		Radiance_unscaled[i] = Radiance_unscaled[0] + i * nCols;
 
 	for (i=0; i<nRows; i++) {
 		for (j=0; j<nCols; j++){
-			Radiance_scaled[i][j] = (float)Radiance[i][j]*RadianceFactors[0]
+			Radiance_unscaled[i][j] = (float)Radiance[i][j]*RadianceFactors[0]
 				+ (float)RadianceFactors[1];
 		}
 	}
-	printf("\nRadiance (scaled) =\n");
+	printf("\nRadiance (unscaled) =\n");
 	for (i=0; i<10; i++) {
 		printf (" [ ");
 		for (j=0; j<10; j++){
-			printf (" %11.6f", Radiance_scaled[i][j]);
+			printf (" %11.6f", Radiance_unscaled[i][j]);
 		}
 		printf (" ]\n");
 	}
@@ -999,8 +999,8 @@ int main(void){
 
 	free(RadianceFactors);
 	
-    free(Radiance_scaled[0]);
-	free(Radiance_scaled);
+    free(Radiance_unscaled[0]);
+	free(Radiance_unscaled);
 
 	printf ("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 
@@ -1152,24 +1152,24 @@ int main(void){
 
 	printf ("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 
-	// Allocate the array memory for the scaled Reflectances
-	float **Reflectance_scaled = (float **) malloc(nRows * sizeof(float *));
-	Reflectance_scaled[0] = (float *) malloc(nRows * nCols * sizeof(float));
+	// Allocate the array memory for the unscaled Reflectances
+	float **Reflectance_unscaled = (float **) malloc(nRows * sizeof(float *));
+	Reflectance_unscaled[0] = (float *) malloc(nRows * nCols * sizeof(float));
 	for (i=1; i<nRows; i++)
-		Reflectance_scaled[i] = Reflectance_scaled[0] + i * nCols;
+		Reflectance_unscaled[i] = Reflectance_unscaled[0] + i * nCols;
 
-	// Generate the scaled Reflectances
+	// Generate the unscaled Reflectances
 	for (i=0; i<nRows; i++) {
 		for (j=0; j<nCols; j++){
-			Reflectance_scaled[i][j] = (float)Reflectance[i][j]*ReflectanceFactors[0]
+			Reflectance_unscaled[i][j] = (float)Reflectance[i][j]*ReflectanceFactors[0]
 				+ (float)ReflectanceFactors[1];
 		}
 	}
-    printf("\nReflectance (scaled) =\n");
+    printf("\nReflectance (unscaled) =\n");
     for (i=0; i<10; i++) {
         printf (" [ ");
         for (j=0; j<10; j++){
-            printf (" %11.6f", Reflectance_scaled[i][j]);
+            printf (" %11.6f", Reflectance_unscaled[i][j]);
         }
         printf (" ]\n");
     }
@@ -1179,8 +1179,8 @@ int main(void){
 
 	free(ReflectanceFactors);
 
-	free(Reflectance_scaled[0]);
-	free(Reflectance_scaled);
+	free(Reflectance_unscaled[0]);
+	free(Reflectance_unscaled);
 
 	printf ("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 

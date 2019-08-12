@@ -1,0 +1,116 @@
+#=================================================================
+#=================================================================
+
+# Options to compile either NOAA/NDE or UMD/NASA code
+#NASA = 1      # Original UMD code with NASA SDR inputs (hdf4)
+#NOAA = 1       # NOAA version for NDE with IDPS SDR inputs (hdf5)
+
+# Modify CC and CFLAGS for your local C compiler
+
+# Linux
+CC = gcc
+#CFLAGS = -g
+CFLAGS =
+#CFLAGS = -O3
+
+# Define additional flags here if necessary.
+# if LSIPS is defined only fatal errors cause exits w/ non-zero values
+#ADD_CFLAGS = -w -DLSIPS
+#ADD_CFLAGS = -w
+ADD_CFLAGS = -Wall
+
+#=================================================================
+# No modifications are needed past this point
+#=================================================================
+
+# Libraries and include files
+
+#$(info Building with HDF4_DIR: $(HDF4_DIR) )
+HDF4LIB = $(HDF4_DIR)/lib
+HDF4INC = $(HDF4_DIR)/include
+#$(info Building with HDF4LIB: $(HDF4LIB) )
+#$(info Building with HDF4INC: $(HDF4INC) )
+#$(info Building with HDF5_DIR: $(HDF5_DIR) )
+HDF5LIB = $(HDF5_DIR)/lib
+HDF5INC = $(HDF5_DIR)/include
+#$(info Building with HDF5LIB: $(HDF5LIB) )
+#$(info Building with HDF5INC: $(HDF5INC) )
+#$(info Building with NETCDF_DIR: $(NETCDF_DIR) )
+NCDFLIB = $(NETCDF_DIR)/lib
+NCDFINC = $(NETCDF_DIR)/include
+#$(info Building with NCDFLIB: $(NCDFLIB) )
+#$(info Building with NCDFINC: $(NCDFINC) )
+
+# Sucessfully Builds
+#LIB = -L$(HDF4LIB) -Wl,-R$(HDF4LIB) -L$(HDF5LIB) -Wl,-R$(HDF5LIB) -L$(NCDFLIB) -Wl,-R$(NCDFLIB) -static -lz -lnetcdf -lmfhdf -ldf -ljpeg -lhdf5_hl -lhdf5 -L/usr/lib -lm -lz -ldl -lstdc++
+#INC = -I$(HDF4INC) -I$(HDF5INC) -I$(NCDFINC)
+
+# Sucessfully Builds
+#LIB = -L$(HDF5LIB) -Wl,-R$(HDF5LIB) -L$(NCDFLIB) -Wl,-R$(NCDFLIB) -static -lz -lnetcdf -ljpeg -lhdf5_hl -lhdf5 -lm -lz -ldl
+#INC = -I$(HDF5INC) -I$(NCDFINC)
+
+# Sucessfully Builds
+#LIB = -L$(HDF5LIB) -Wl,-R$(HDF5LIB) -L$(NCDFLIB) -Wl,-R$(NCDFLIB) -static -lnetcdf -ljpeg -lhdf5_hl -lhdf5 -lm -lz -ldl
+#INC = -I$(HDF5INC) -I$(NCDFINC)
+
+# Sucessfully Builds
+#LIB = -L$(HDF5LIB) -Wl,-R$(HDF5LIB) -L$(NCDFLIB) -Wl,-R$(NCDFLIB) -static -lhdf5_hl -lhdf5 -lm -lz -ldl
+#INC = -I$(HDF5INC) -I$(NCDFINC)
+
+# Sucessfully Builds
+LIB = -L$(HDF5LIB) -Wl,-R$(HDF5LIB) -L/usr/lib -static -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++
+INC = -I$(HDF5INC) -I/usr/include
+
+
+# Object files
+OBJ_GMODO = Read_VIIRS_GMODO.o
+OBJ_GMTCO = Read_VIIRS_GMTCO.o
+OBJ_GIMGO = Read_VIIRS_GIMGO.o
+OBJ_GITCO = Read_VIIRS_GITCO.o
+OBJ_SVI01 = Read_VIIRS_SVI01.o
+OBJ_SVM16 = Read_VIIRS_SVM16.o
+OBJ_LWM = Read_VIIRS_LWM.o
+
+TARGET_GMODO = Read_VIIRS_GMODO
+TARGET_GMTCO = Read_VIIRS_GMTCO
+TARGET_GIMGO = Read_VIIRS_GIMGO
+TARGET_GITCO = Read_VIIRS_GITCO
+TARGET_SVI01 = Read_VIIRS_SVI01
+TARGET_SVM16 = Read_VIIRS_SVM16
+TARGET_LWM = Read_VIIRS_LWM
+
+Read_VIIRS_GMODO.o: Read_VIIRS_GMODO.c
+Read_VIIRS_GMTCO.o: Read_VIIRS_GMTCO.c
+Read_VIIRS_GIMGO.o: Read_VIIRS_GIMGO.c
+Read_VIIRS_GITCO.o: Read_VIIRS_GITCO.c
+Read_VIIRS_SVI01.o: Read_VIIRS_SVI01.c
+Read_VIIRS_SVM16.o: Read_VIIRS_SVM16.c
+Read_VIIRS_LWM.o: Read_VIIRS_LWM.c
+
+
+$(TARGET_GMODO): $(OBJ_GMODO)
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) -o $(TARGET_GMODO) $(OBJ_GMODO) $(LIB)
+$(TARGET_GMTCO): $(OBJ_GMTCO)
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) -o $(TARGET_GMTCO) $(OBJ_GMTCO) $(LIB)
+$(TARGET_GIMGO): $(OBJ_GIMGO)
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) -o $(TARGET_GIMGO) $(OBJ_GIMGO) $(LIB)
+$(TARGET_GITCO): $(OBJ_GITCO)
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) -o $(TARGET_GITCO) $(OBJ_GITCO) $(LIB)
+$(TARGET_SVI01): $(OBJ_SVI01)
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) -o $(TARGET_SVI01) $(OBJ_SVI01) $(LIB)
+$(TARGET_SVM16): $(OBJ_SVM16)
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) -o $(TARGET_SVM16) $(OBJ_SVM16) $(LIB)
+$(TARGET_LWM): $(OBJ_LWM)
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) -o $(TARGET_LWM) $(OBJ_LWM) $(LIB)
+
+clean:
+	rm -f *.o core $(TARGET)
+
+#
+# Rules
+#
+.c.o:
+	$(CC) $(CFLAGS) $(ADD_CFLAGS) $(INC) -c $< -o $@
+
+
+

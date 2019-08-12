@@ -5,7 +5,7 @@
 #include <hdf5.h>
 #include <hdf5_hl.h>
 
-#define MODSVFILE      "SVM16_npp_d20030125_t0704334_e0705579_b00014_c20090814190100731372_unkn_SCI.h5" // 0.48 
+#define MODSVFILE      "SVM16_j01_d20190715_t1619591_e1621236_b08574_c20190715163934988381_cspp_dev.h5" // 0.48
 
 #define MODSVGRP       "All_Data/VIIRS-M16-SDR_All/"
 
